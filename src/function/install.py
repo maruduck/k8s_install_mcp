@@ -1,5 +1,6 @@
 import paramiko
 from core import ssh_client, install_commands
+from function import utils
 
 class InstallTools:
 
@@ -7,38 +8,22 @@ class InstallTools:
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy)
 
+    def update(self, ssh_data: ssh_client):
+        log = utils.exec(ssh_data=ssh_data, command="sudo dnf -y update")
+        return log
 
-    async def exec(self, ssh_data: ssh_client, commands: list) -> list:
+    def set_env(self, ssh_data: ssh_client) -> str:
+        log = utils.exec_commands(ssh_data=ssh_data, commands=install_commands.setting_commands)
+        return 'settings ok'
 
-        log = []
-        self.ssh.connect(hostname=ssh_data.hostname,
-                         port=ssh_data.port,
-                         username=ssh_data.username,
-                         password=ssh_data.pwd,
-                         allow_agent=False,
-                         look_for_keys=False)
-        try:
-            for command in commands:
-                stdin, stdout, error = self.ssh.exec_command(command)
-
-                if stdout.channel.recv_exit_status() == 0:
-                    txt = stdout.read().decode()
-                    if txt:
-                        log.append( stdout.read().decode() )
-                else:
-                    log.append( error.read().decode() )
-                    break
-        finally:
-            self.ssh.close()
-            return log
-
-    async def k8s_master_install(self, ssh_data: ssh_client) -> str:
-
-        await self.exec(ssh_data=ssh_data, commands=install_commands.master_install_commands)
+    def k8s_master_install(self, ssh_data: ssh_client) -> str:
+        utils.exec_commands(ssh_data=ssh_data, commands=install_commands.master_install_commands)
+        ssh_data.token = utils.exec(ssh_data=ssh_data, command="cat token.txt")
         return "Master install Complete"
 
-    async def k8s_client_install(self, ssh_data: ssh_client):
-        await self.exec(ssh_data=ssh_data, commands=install_commands.client_install_commands)
+    def k8s_client_install(self, ssh_data: ssh_client, token: str):
+        utils.exec_commands(ssh_data=ssh_data, commands=install_commands.client_install_commands)
+        utils.exec(command=token)
         return "Client install Complete"
 
 install = InstallTools()

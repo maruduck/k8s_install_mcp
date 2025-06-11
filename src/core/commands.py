@@ -1,8 +1,7 @@
 class InstallCommands:
 
     def __init__(self):
-        self.master_install_commands = [
-            # linux settings
+        self.setting_commands = [
             'sudo setenforce 0',
             "sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config",
             'sudo systemctl stop firewalld; sudo systemctl disable firewalld',
@@ -14,10 +13,10 @@ net.bridge.bridge-nf-call-ip6tables = 1
 EOF""",
             "sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo",
             'sudo dnf install -y containerd.io iproute-tc',
-            'sudo modprobe br_netfilter',
-            'sudo modprobe overlay',
-            'sudo sysctl --system',
-            'sudo systemctl start containerd',
+        ]
+
+        self.master_install_commands = [
+            # linux settings
             """cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -30,6 +29,10 @@ EOF""",
             'sudo systemctl start kubelet; sudo systemctl enable kubelet',
 
             # k8s settings
+            'sudo modprobe br_netfilter',
+            'sudo modprobe overlay',
+            'sudo sysctl --system',
+            'sudo systemctl start containerd',
             'sudo rm /etc/containerd/config.toml',
             'sudo containerd config default | sudo tee /etc/containerd/config.toml',
             'sudo systemctl restart containerd',
@@ -42,18 +45,6 @@ EOF""",
         ]
 
         self.client_install_commands = [
-            'sudo setenforce 0',
-            "sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config",
-            'sudo systemctl stop firewalld',
-            'sudo systemctl disable firewalld',
-            "sudo swapoff -a && sed -i '/ swap / s/^/#/' /etc/fstab",
-            """cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
-net.bridge.bridge-nf-call-iptables  = 1
-net.ipv4.ip_forward                 = 1
-net.bridge.bridge-nf-call-ip6tables = 1
-EOF""",
-            "sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo",
-            'sudo dnf install -y containerd.io iproute-tc',
             'sudo modprobe br_netfilter',
             'sudo modprobe overlay',
             'sudo sysctl --system',
