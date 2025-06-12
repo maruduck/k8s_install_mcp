@@ -20,9 +20,10 @@ class SshClient:
 
         return self.to_json()
 
-    async def get_token(self):
-        if not self.token:
-            self.token = await utils.exec(ssh_data=self, command='cat token.txt')
+    def get_token(self):
+        if self.token:
+            return self.token
+        self.token = utils.exec(ssh_data=self, command='cat token.txt')
         return self.token
 
 ssh_master_data = SshClient()
