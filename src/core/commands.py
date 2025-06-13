@@ -32,7 +32,7 @@ EOF""",
             'sudo modprobe br_netfilter',
             'sudo modprobe overlay',
             'sudo sysctl --system',
-            'sudo systemctl start containerd',
+            'sudo systemctl start containerd; sudo systemctl enable containerd',
             'sudo rm /etc/containerd/config.toml',
             'sudo containerd config default | sudo tee /etc/containerd/config.toml',
             'sudo systemctl restart containerd',
@@ -40,7 +40,7 @@ EOF""",
             "sudo kubeadm init --pod-network-cidr=10.244.0.0/16 | tail -n 2 > token.txt",
             'mkdir -p $HOME/.kube',
             'sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config',
-            'sudo chown $(id -u):$(id -g) $HOME/.kube/config',
+            's chown $(id -u):$(id -g) $HOME/.kube/config',
             'kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml'
         ]
 
