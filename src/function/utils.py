@@ -80,7 +80,7 @@ class UtilsTools:
                     if txt:
                         log.append( stdout.read().decode() )
                 else:
-                    log.append( error.read().decode() )
+                    log.append( command + ' : ' + error.read().decode() )
                     break
         finally:
             self.ssh.close()

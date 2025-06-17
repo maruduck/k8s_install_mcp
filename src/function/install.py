@@ -17,9 +17,9 @@ class InstallTools:
         return ''.join(log)
 
     def k8s_master_install(self, ssh_data: ssh_client) -> str:
-        utils.exec_commands(ssh_data=ssh_data, commands=install_commands.master_install_commands)
+        logs = utils.exec_commands(ssh_data=ssh_data, commands=install_commands.master_install_commands)
         ssh_data.token = utils.exec(ssh_data=ssh_data, command="cat token.txt")
-        return "Master install Complete"
+        return ''.join(logs)
 
     def k8s_client_install(self, ssh_data: ssh_client, token: str):
         utils.exec_commands(ssh_data=ssh_data, commands=install_commands.client_install_commands)

@@ -42,8 +42,8 @@ def setting_env(self, type: str) -> str:
 def k8s_master_install(self) -> str:
     """update, setting env 수행 후 (master 설치 시 type master로 설정)
     kubernetes(k8s) master 자동화 설치: 장시간 걸리므로 계속 기다릴것"""
-    install.k8s_master_install(ssh_data=ssh_master_data)
-    return "설치 완료"
+    return install.k8s_master_install(ssh_data=ssh_master_data)
+
 
 # client type
 

@@ -3,9 +3,9 @@ class InstallCommands:
     def __init__(self):
         self.setting_commands = [
             'sudo setenforce 0',
-            """sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config""",
+            "sudo sed -i \'s/SELINUX=enforcing/SELINUX=disabled/g\' /etc/selinux/config",
             'sudo systemctl stop firewalld; sudo systemctl disable firewalld',
-            "sudo swapoff -a && sed -i '/ swap / s/^/#/' /etc/fstab",
+            "sudo swapoff -a && sudo sed -i \'/ swap / s/^/#/\' /etc/fstab",
             """cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward                 = 1
@@ -40,7 +40,9 @@ EOF""",
             "sudo kubeadm init --pod-network-cidr=10.244.0.0/16 | tail -n 2 > token.txt",
             'mkdir -p $HOME/.kube',
             'sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config',
-            's chown $(id -u):$(id -g) $HOME/.kube/config',
+            'sudo chown $(id -u):$(id -g) $HOME/.kube/config',
+            'export KUBECONFIG=$HOME/.kube/config',
+            'source ~/.bashrc',
             'kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml'
         ]
 
