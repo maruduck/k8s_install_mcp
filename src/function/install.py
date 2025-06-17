@@ -10,11 +10,11 @@ class InstallTools:
 
     def update(self, ssh_data: ssh_client):
         log = utils.exec(ssh_data=ssh_data, command="sudo dnf -y update")
-        return log
+        return ''.join(log)
 
     def set_env(self, ssh_data: ssh_client) -> str:
         log = utils.exec_commands(ssh_data=ssh_data, commands=install_commands.setting_commands)
-        return 'settings ok'
+        return ''.join(log)
 
     def k8s_master_install(self, ssh_data: ssh_client) -> str:
         utils.exec_commands(ssh_data=ssh_data, commands=install_commands.master_install_commands)

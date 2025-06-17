@@ -3,7 +3,7 @@ class InstallCommands:
     def __init__(self):
         self.setting_commands = [
             'sudo setenforce 0',
-            "sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config",
+            """sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config""",
             'sudo systemctl stop firewalld; sudo systemctl disable firewalld',
             "sudo swapoff -a && sed -i '/ swap / s/^/#/' /etc/fstab",
             """cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf

@@ -28,7 +28,7 @@ def master_exec(self,type: str, command: str) -> str:
                       command=command)
 
 @mcp.tool()
-def update(self, type: str) -> list:
+def update(self, type: str) -> str:
     """dnf update: 장시간 걸리므로 계속 기다릴것,master 설치 시 type master"""
     return install.update(ssh_data=ssh_master_data if type == 'master' else ssh_client_data)
 

@@ -35,6 +35,15 @@ Rocky Linux 환경에서 kubernetes 자동화 설치 기능을 갖춘 MCP 에이
 ---
 
 ### 환경 설정
+
+sudo 권한 부여
+```bash
+$ visudo  
+# 반드시 마지막 줄에 입력할 것
+# 다른 설정의 우선순위에 밀릴 수 있음
+(사용자명) ALL=(ALL)  NOPASSWD: ALL 
+```
+
 타임 아웃 에러 발생 가능성이 있으므로 미리 update를 수행한 후 실행할 것
 ```bash
 $ dnf update -y
