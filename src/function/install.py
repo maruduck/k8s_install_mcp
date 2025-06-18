@@ -21,9 +21,10 @@ class InstallTools:
         ssh_data.token = utils.exec(ssh_data=ssh_data, command="cat token.txt")
         return ''.join(logs)
 
-    def k8s_client_install(self, ssh_data: ssh_client, token: str):
-        utils.exec_commands(ssh_data=ssh_data, commands=install_commands.client_install_commands)
-        utils.exec(command=token)
-        return "Client install Complete"
+    def k8s_client_install(self, ssh_data: ssh_client) -> str:
+        logs = utils.exec_commands(ssh_data=ssh_data, commands=install_commands.client_install_commands)
+        return ''.join(logs)
 
+    def k8s_client_token(self, ssh_data: ssh_client, token: str, node_name : str):
+        utils.exec(ssh_data=ssh_data, command='sudo ' + token + ' --node-name ' + node_name)
 install = InstallTools()

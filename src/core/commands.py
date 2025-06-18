@@ -47,11 +47,7 @@ EOF""",
         ]
 
         self.client_install_commands = [
-            'sudo modprobe br_netfilter',
-            'sudo modprobe overlay',
-            'sudo sysctl --system',
-            'sudo systemctl start containerd',
-            """cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+             """cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
 baseurl=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
@@ -61,6 +57,16 @@ gpgkey=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
 EOF""",
             'sudo dnf install -y kubelet kubectl kubeadm',
             'sudo systemctl start kubelet; sudo systemctl enable kubelet',
+
+            # k8s settings
+            'sudo modprobe br_netfilter',
+            'sudo modprobe overlay',
+            'sudo sysctl --system',
+            'sudo systemctl start containerd; sudo systemctl enable containerd',
+            'sudo rm /etc/containerd/config.toml',
+            'sudo containerd config default | sudo tee /etc/containerd/config.toml',
+            'sudo systemctl restart containerd',
+            'sudo ip route del 10.0.0.0/8; sudo ip route add 10.0.0.0/16 dev enp0s3; sudo systemctl restart NetworkManager'
         ]
 
 

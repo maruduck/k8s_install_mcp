@@ -21,9 +21,9 @@ class SshClient:
         return self.to_json()
 
     def get_token(self):
-        if self.token:
-            return self.token
-        self.token = utils.exec(ssh_data=self, command='cat token.txt')
+        if not self.token:
+            self.token = " ".join(utils.exec(ssh_data=self, command='cat token.txt').replace("\\", "").split())
+
         return self.token
 
 ssh_master_data = SshClient()

@@ -1,5 +1,6 @@
 import paramiko
 from core import ssh_client
+import uuid
 
 class UtilsTools:
 
@@ -50,7 +51,7 @@ class UtilsTools:
             if status == 0: # 정상 실행 완료
                 result = stdout.read().decode()
             else: # 에러 출력문
-                result = "에러 발생: " + error.read().decode()
+                result = command + " : " + error.read().decode()
         except paramiko.AuthenticationException:
             return "인증 실패: 사용자 이름 또는 비밀번호를 확인하세요."
         except paramiko.SSHException as sshException:
@@ -85,6 +86,9 @@ class UtilsTools:
         finally:
             self.ssh.close()
             return log
+
+    def get_uuid(self):
+        return str(uuid.uuid4())
 
 
 utils = UtilsTools()
