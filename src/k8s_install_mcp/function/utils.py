@@ -1,5 +1,5 @@
 import paramiko
-from core import ssh_client
+from k8s_install_mcp.core import ssh_client
 import uuid
 
 class UtilsTools:

@@ -1,6 +1,7 @@
 import paramiko
-from core import ssh_client, install_commands
-from function import utils
+from k8s_install_mcp.core import install_commands
+from k8s_install_mcp.core import ssh_client
+from k8s_install_mcp.function import utils
 
 class InstallTools:
 

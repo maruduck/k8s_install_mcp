@@ -1,6 +1,6 @@
 from mcp.server.fastmcp import FastMCP
-from core import ssh_master_data, ssh_client_data, SshClient
-from function import utils, install
+from k8s_install_mcp.core import ssh_master_data, ssh_client_data
+from k8s_install_mcp.function import utils, install
 
 mcp = FastMCP('k8s')
 
@@ -16,7 +16,7 @@ def master_token(self) -> str:
     return ssh_master_data.get_token()
 
 @mcp.tool()
-def master_connect_test(self, type: str, message: str) -> str:
+def connect_test(self, type: str, message: str) -> str:
     """연결 테스트하기, master 설치 시 type master"""
     return utils.notify(ssh_data= ssh_master_data if type == 'master' else ssh_client_data,
                         message=message)
@@ -68,3 +68,6 @@ def k8s_client_token(self ,node_name=utils.get_uuid()):
 def main():
     print('server test')
     mcp.run()
+
+if __name__ == "__main__":
+    main()

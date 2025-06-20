@@ -1,5 +1,5 @@
 import json
-from function import utils
+from k8s_install_mcp.function import utils
 
 class SshClient:
     def __init__(self, hostname='127.0.0.1', pwd='1234', port = 22, username='root'):

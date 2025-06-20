@@ -36,7 +36,7 @@ $ git clone https://github.com/maruduck/k8s_install_mcp.git
 $ python -m venv venv
 $ venv\Scripts\activate # Mac은 source venv/bin/activate
 $ pip install uv
-$ 
+$ uv pip install -r requirements.txt
 ```
 
 ```json
@@ -49,6 +49,21 @@ $
         }
     }
 }
+```
+
+- uvx 사용
+
+```json
+{
+    "mcpServers": {
+        "k8s": {
+            "requestTimeout": 12000000000,
+            "command": "uvx",
+            "args": ["k8s-install-mcp"]
+        }
+    }
+}
+
 ```
 
 
@@ -80,3 +95,28 @@ k8s 도구를 사용하여 127.0.0.1 호스트 104 포트에서 $(username) 사�
 ```
 k8s 도구를 사용하여 127.0.0.1 호스트 103 포트에서 $(username) 사용자 1234 비밀번호로 node1 노드 이름으로 k8s 클라이언트 설치해줘 
 ```
+
+
+
+## 함수 목록
+
+- master_set_ssh
+  - master 노드 ssh 정보 설정
+- client_set_ssh
+  - client 노드 ssh 정보 설정
+- master_token
+  - master의 kubeadm join 명령어($HOME의 token.txt에 저장) 반환
+- connect_test
+  - ssh 연결 테스트
+- exec
+  - 명령어 실행
+- update
+  - dnf update 실행
+- setting_env
+  - k8s 설치 환경 설정
+- k8s_master_install
+  - master 노드 설치
+- k8s_client_install
+  - client 노드 설치
+- k8s_client_token
+  - master token.txt 명령어(kubeadm join) 실행
